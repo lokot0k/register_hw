@@ -1,11 +1,12 @@
 import datetime
 
 from flask import Flask
+from werkzeug.security import generate_password_hash
+
 from data import db_session
 from data.users import User
 from flask import render_template
 from flask import redirect
-
 from loginform import LoginForm
 
 app = Flask(__name__)
@@ -28,7 +29,7 @@ def index():
             user.email = form.username.data
             user.age = int(form.age.data)
             user.position = form.position.data
-            user.hashed_password = str(hash(form.password.data))
+            user.hashed_password = generate_password_hash(form.password.data)
             user.modified_date = datetime.datetime.now()
             user.address = form.address.data
             user.speciality = form.speciality.data
